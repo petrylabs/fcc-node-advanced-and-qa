@@ -26,6 +26,9 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
+myDB(async client => {
+  const myDataBase = await client.db('database').collection('users');
+
 //  Tell passport to use an instantiated LocalStrategy object with a few settings defined
 passport.use(new LocalStrategy(
   function(username, password, done) {
@@ -39,15 +42,23 @@ passport.use(new LocalStrategy(
   }
 ));
 
-myDB(async client => {
-  const myDataBase = await client.db('database').collection('users');
+  /* For this challenge you should add the route /login to accept a POST request. 
+  To authenticate on this route, you need to add a middleware to do so before then sending a response. 
+  This is done by just passing another argument with the middleware before your function(req,res) 
+  with your response! The middleware to use is passport.authenticate('local'). */
+
+  app.route('/login')
+    .post(passport.authenticate('local' ,{ failureRedirect: '/' }), function(req, res) {
+      res.render(process.cwd() + '/views/pug/profile', {});
+  });
 
   // Be sure to change the title
   app.route('/').get((req, res) => {
     //Change the response to render the Pug template
     res.render(process.cwd() + '/views/pug/index', {
       title: 'Connected to Database',
-      message: 'Please login'
+      message: 'Please login',
+      showLogin: true
     });
     
   });
