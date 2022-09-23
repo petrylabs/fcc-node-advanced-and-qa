@@ -68,6 +68,19 @@ passport.use(new LocalStrategy(
       message: 'Please login',
       showLogin: true
     });
+
+
+    app.route('/logout')
+    .get((req, res) => {
+      req.logout();
+      res.redirect('/');
+  });
+
+  app.use((req, res, next) => {
+    res.status(404)
+      .type('text')
+      .send('Not Found');
+  });
     
   });
 
