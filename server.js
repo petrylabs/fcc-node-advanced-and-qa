@@ -49,8 +49,12 @@ passport.use(new LocalStrategy(
 
   app.route('/login')
     .post(passport.authenticate('local' ,{ failureRedirect: '/' }), function(req, res) {
-      res.render(process.cwd() + '/views/pug/profile', {});
+     res.redirect('/profile');
   });
+
+  app.route('/profile').get(ensureAuthenticated, function(req, res) {
+    res.render(process.cwd() + '/views/pug/profile', {});
+  })
 
   // Be sure to change the title
   app.route('/').get((req, res) => {
@@ -80,7 +84,12 @@ passport.use(new LocalStrategy(
   });
 });
 
-
+function ensureAuthenticated(req, res, next) {
+  if (req.isAuthenticated()) {
+    return next();
+  }
+  res.redirect('/');
+};
 
 // app.route('/').get((req, res) => {
 //    // Change the response to render the Pug template
