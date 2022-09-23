@@ -53,7 +53,11 @@ passport.use(new LocalStrategy(
   });
 
   app.route('/profile').get(ensureAuthenticated, function(req, res) {
-    res.render(process.cwd() + '/views/pug/profile', {});
+    // Pass an object containing the property username and value of req.user.username as the second argument for the render method of the profile view
+    res.render(process.cwd() + '/views/pug/profile', {
+      username: req.user.username
+    });
+    
   })
 
   // Be sure to change the title
