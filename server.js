@@ -7,6 +7,7 @@ const session = require('express-session');
 const passport = require('passport');
 const ObjectID = require('mongodb').ObjectID;
 const LocalStrategy = require('passport-local');
+const bcrypt = require('bcrypt');
 
 const app = express();
 app.set('view engine', 'pug');
@@ -36,7 +37,9 @@ passport.use(new LocalStrategy(
       console.log('User '+ username +' attempted to log in.');
       if (err) { return done(err); }
       if (!user) { return done(null, false); }
-      if (password !== user.password) { return done(null, false); }
+      if (!bcrypt.compareSync(password, user.password)) { 
+        return done(null, false);
+      }
       return done(null, user);
     });
   }
@@ -60,9 +63,11 @@ passport.use(new LocalStrategy(
       } else if (user) {
         res.redirect('/');
       } else {
+        // hash password
+        const pwdHash = bcrypt.hashSync(req.body.password, 12);
         myDataBase.insertOne({
           username: req.body.username,
-          password: req.body.password
+          password: pwdHash
         },
           (err, doc) => {
             if (err) {
