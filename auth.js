@@ -29,7 +29,7 @@ module.exports = function (app, myDataBase) {
   passport.use(new GitHubStrategy({
     clientID: process.env.GITHUB_CLIENT_ID,
     clientSecret: process.env.GITHUB_CLIENT_SECRET,
-    callbackURL: process.env.env == 'PROD' ? process.env.GITHUB_CALLBACK_URL_PROD : process.env.GITHUB_CALLBACK_URL_DEV
+    callbackURL: process.env.ENVIRONMENT == 'PROD' ? process.env.GITHUB_CALLBACK_URL_PROD : process.env.GITHUB_CALLBACK_URL_DEV
   },
     function (accessToken, refreshToken, profile, cb) {
       console.log(profile);
