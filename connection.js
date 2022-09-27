@@ -16,7 +16,7 @@ async function main(callback) {
     } catch (e) {
         // Catch any errors
         console.error(e);
-        throw new Error('Unable to Connect to Database')
+        throw new Error('Unable to Connect to Database due to: ' + e)
     }
 }
 
