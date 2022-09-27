@@ -1,6 +1,7 @@
 'use strict';
 require('dotenv').config();
 const express = require('express');
+const cors = require('cors')
 const myDB = require('./connection');
 const fccTesting = require('./freeCodeCamp/fcctesting.js');
 const session = require('express-session');
@@ -9,6 +10,7 @@ const routes = require('./routes.js');
 const auth = require('./auth.js');
 
 const app = express();
+app.use(cors());
 app.set('view engine', 'pug');
 
 fccTesting(app); //For FCC testing purposes
