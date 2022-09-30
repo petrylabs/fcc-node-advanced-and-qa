@@ -10,7 +10,11 @@ module.exports = function (app, myDataBase) {
     res.redirect('/profile');
   });
   app.route('/profile').get(ensureAuthenticated, (req, res) => {
-    res.render('pug/profile', { username: req.user.username });
+    console.log('displayName', req.user.name)
+    res.render('pug/profile', { username: req.user.name });
+  });
+  app.route('/chat').get(ensureAuthenticated, (req, res) => {
+    res.render('pug/chat', { user: req.user });
   });
   app.route('/logout').get((req, res) => {
     req.logout();
