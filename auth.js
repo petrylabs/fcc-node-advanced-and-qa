@@ -29,7 +29,7 @@ module.exports = function (app, myDataBase) {
   passport.use(new GitHubStrategy({
     clientID: process.env.GITHUB_CLIENT_ID, //process.env.ENVIRONMENT == 'PROD' ? process.env.GITHUB_PROD_CLIENT_ID : process.env.GITHUB_DEV_CLIENT_ID,
     clientSecret: process.env.GITHUB_CLIENT_SECRET, //process.env.ENVIRONMENT == 'PROD' ? process.env.GITHUB_PROD_CLIENT_SECRET : process.env.GITHUB_DEV_CLIENT_SECRET,
-    callbackURL: "https://petrylabs-advanced-node-and-qa.herokuapp.com/auth/github/callback"
+    callbackURL: process.env.GITHUB_CALLBACK_URL
   },
     function (accessToken, refreshToken, profile, cb) {
       // Database logic here with callback containing our user object
